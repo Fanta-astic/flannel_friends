@@ -1,19 +1,32 @@
 version: '3'
-services:
 
+networks:
+  internal:
+
+services:
     frontend:
       image: cwalops/frontend:init
       ports:
         - "5000:5000"
-        
-    detailservice:
-      image: cwalops/detailservice:init
-      ports:
-        - "5001:5001"
-        
+      networks:
+        internal:
+          aliases:
+            - frontend
+
     ratioservice:
       image: cwalops/ratioservice:init
       ports:
+        - "5001:5001"
+      networks:
+        internal:
+          aliases:
+            - ratioservice
+
+    detailservice:
+      image: cwalops/detailservice:init
+      ports:
         - "5002:5002"
-        
-    
+      networks:
+        internal:
+          aliases:
+            - detailservice

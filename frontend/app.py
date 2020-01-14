@@ -39,11 +39,11 @@ def main():
             origFileSizeVal =  os.path.getsize(in_file)
             gzipFileSizeVal = os.path.getsize(out_gz)
             ratio = {'fileName':f.filename, 'origFileSize':origFileSizeVal, 'gzipFileSize':gzipFileSizeVal}
-            stats = requests.get('http://172.17.0.2:5001', params = ratio)
+            stats = requests.get('http://ratioservice:5001', params = ratio)
             print(stats.content, flush=True)
 
             # Generate CPU load with other microservice
-            result = requests.get('http://172.17.0.4:5002')
+            result = requests.get('http://detailservice:5002')
             print(result.content, flush=True)
 
             # Delete original and return compressed file to user
