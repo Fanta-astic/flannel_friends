@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.7.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ratioservice
+  name: ratioservice
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ratioservice
+    spec:
+      containers:
+      - image: cwalops/ratioservice:init
+        name: ratioservice
+        ports:
+        - containerPort: 5001
+        resources: {}
+      restartPolicy: Always
+status: {}
