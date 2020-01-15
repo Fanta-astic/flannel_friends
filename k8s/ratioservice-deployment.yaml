@@ -1,21 +1,30 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.7.0 (HEAD)
+    kompose.cmd: kompose convert -o k8s/
+    kompose.version: 1.20.0 (f3d54d784)
   creationTimestamp: null
   labels:
     io.kompose.service: ratioservice
+    app: ratioservice
   name: ratioservice
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: ratioservice
   strategy: {}
   template:
     metadata:
+      annotations:
+        kompose.cmd: kompose convert -o k8s/
+        kompose.version: 1.20.0 (f3d54d784)
       creationTimestamp: null
       labels:
+        io.kompose.network/internal: "true"
         io.kompose.service: ratioservice
+        app: ratioservice
     spec:
       containers:
       - image: cwalops/ratioservice:init
