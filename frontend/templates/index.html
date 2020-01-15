@@ -3,9 +3,12 @@
         <title>Sample App</title>
     </head>
     <body>
-	<form method="POST" action="http://localhost:5000/form" enctype="multipart/form-data">
-             <input type="file" value="file" name='file'/>
-             <input type="submit"/>
-	</form>
+    	<form method="POST" action="/formX" enctype="multipart/form-data">
+                 File to Compress <input type="file" value="file" name='file'/>
+                 <input type="submit"/>
+    	</form>
+      <form method="GET" action="/formY">
+                 Generate CPU Load <input type="submit"/>
+      </form>
     </body>
 </html>

@@ -16,8 +16,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return render_template('index.html')
 
-@app.route('/form', methods=['POST'])
-def main():
+@app.route('/formX', methods=['POST'])
+def formX():
 
     if request.method == 'POST':
         if 'file':
@@ -42,15 +42,22 @@ def main():
             stats = requests.get('http://ratioservice:5001', params = ratio)
             print(stats.content, flush=True)
 
-            # Generate CPU load with other microservice
-            result = requests.get('http://detailservice:5002')
-            print(result.content, flush=True)
-
-            # Delete original and return compressed file to user
+            # Return compressed file to user
             return send_file(out_gz, as_attachment=True)
 
     else:
         return "Failure"
 
+@app.route('/formY', methods=['GET'])
+def formY():
+
+    if request.method == 'GET':
+
+            # Generate CPU load with other microservice
+            result = requests.get('http://detailservice:5002')
+            return result.content
+
+    else:
+        return "Failure"
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
