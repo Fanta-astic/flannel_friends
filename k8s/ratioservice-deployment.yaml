@@ -27,7 +27,7 @@ spec:
         app: ratioservice
     spec:
       containers:
-      - image: cwalops/ratioservice:init
+      - image: cwalops/ratioservice:latest
         name: ratioservice
         ports:
         - containerPort: 5001

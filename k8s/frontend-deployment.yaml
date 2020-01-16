@@ -27,10 +27,14 @@ spec:
         app: frontend
     spec:
       containers:
-      - image: cwalops/frontend:init
+      - image: cwalops/frontend:latest
         name: frontend
         ports:
         - containerPort: 5000
-        resources: {}
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
       restartPolicy: Always
 status: {}

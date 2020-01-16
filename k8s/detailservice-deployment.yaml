@@ -27,10 +27,14 @@ spec:
         io.kompose.service: detailservice
     spec:
       containers:
-      - image: cwalops/detailservice:init
+      - image: cwalops/detailservice:latest
         name: detailservice
         ports:
         - containerPort: 5002
-        resources: {}
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
       restartPolicy: Always
 status: {}
