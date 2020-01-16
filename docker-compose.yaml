@@ -5,7 +5,7 @@ networks:
 
 services:
     frontend:
-      image: cwalops/frontend:init
+      image: cwalops/frontend:latest
       ports:
         - "5000:5000"
       networks:
@@ -14,7 +14,7 @@ services:
             - frontend
 
     ratioservice:
-      image: cwalops/ratioservice:init
+      image: cwalops/ratioservice:latest
       ports:
         - "5001:5001"
       networks:
@@ -23,7 +23,7 @@ services:
             - ratioservice
 
     detailservice:
-      image: cwalops/detailservice:init
+      image: cwalops/detailservice:latest
       ports:
         - "5002:5002"
       networks:
