@@ -1,3 +1,5 @@
+#This requires an update of the istio gateway to work. Must add a nodeport entry to forward to gateway 5080
+
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
