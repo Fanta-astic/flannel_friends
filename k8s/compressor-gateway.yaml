@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: compressor-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 5080
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: compressor
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - compressor-gateway
+  http:
+  - match:
+    - uri:
+        exact: /
+    - uri:
+        prefix: /compressor
+    - uri:
+        prefix: /formX
+    - uri:
+        prefix: /formY
+    route:
+    - destination:
+        host: frontend
+        port:
+          number: 5000
