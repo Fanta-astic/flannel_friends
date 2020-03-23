@@ -1,31 +1,39 @@
 # flask_web/app.py
 from werkzeug.utils import secure_filename
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import send_file
+from flask import Flask, render_template, request, send_from_directory
 import os
 import gzip
 import requests
+import tempfile
 
 app = Flask(__name__)
 UPLOAD_FOLDER = '/app/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# Default Landing Page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/formX', methods=['POST'])
-def formX():
+# Download Compressed File
+@app.route('/download/<filename>', methods=['POST','GET'])
+def download(filename):
+    tempDir = tempfile.TemporaryDirectory(dir = "/app/uploads")
+    os.replace("/app/uploads/" + filename, tempDir.name + "/" + filename)
+    os.replace("/app/uploads/" + filename.strip('.gz'), tempDir.name + "/" + filename.strip('.gz'))
+    return send_from_directory(tempDir.name, filename)
+
+
+@app.route('/uploadFile', methods=['POST'])
+def uploadFile():
 
     if request.method == 'POST':
         if 'file':
 
             # Save file uploaded by user
             f = request.files['file']
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            upload_file = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], upload_file))
 
             # Compress uploaded file
             in_file = "/app/uploads/" + f.filename
@@ -40,15 +48,10 @@ def formX():
             gzipFileSizeVal = os.path.getsize(out_gz)
             ratio = {'fileName':f.filename, 'origFileSize':origFileSizeVal, 'gzipFileSize':gzipFileSizeVal}
             stats = requests.get('http://ratioservice:5001', params = ratio)
-            print(stats.content, flush=True)
 
-            # Return compressed file to user
-            return send_file(out_gz, as_attachment=True)
+            return (render_template('download.html', filename=f.filename+".gz", stats=stats.text))
 
-    else:
-        return "Failure"
-
-@app.route('/formY', methods=['GET'])
+@app.route('/generateLoad', methods=['GET'])
 def formY():
 
     if request.method == 'GET':

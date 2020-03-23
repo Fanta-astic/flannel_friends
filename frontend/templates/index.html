@@ -1,14 +1,25 @@
+
 <html>
     <head>
         <title>Sample App</title>
     </head>
-    <body>
-    	<form method="POST" action="/formX" enctype="multipart/form-data">
-                 File to Compress <input type="file" value="file" name='file'/>
-                 <input type="submit"/>
-    	</form>
-      <form method="GET" action="/formY">
-                 Generate CPU Load <input type="submit"/>
-      </form>
+
+    <body style="background-color: AliceBlue;">
+
+	<fieldset style="background-color: white;">
+    	<form method="POST" action="/uploadFile" enctype="multipart/form-data">
+                 Select File <input type="file" value="file" name='file'/> <br/> <br/>
+                 <input value="Compress!" type="submit"/>
+	</form>
+	</fieldset>
+
+	<br/><br/>
+
+	<fieldset style="background-color: white;">
+	<form method="GET" action="/generateLoad">
+                 Generate CPU Load <br/> <br/> <input type="submit"/>
+	</form>
+	</fieldset>
+
     </body>
 </html>
